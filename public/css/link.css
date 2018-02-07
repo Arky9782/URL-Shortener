@@ -1,0 +1,11 @@
+.form-signin {
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    margin-top: 200px;
+    text-align: center;
+}
+
+.page-link *{
+    text-align: center;
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/link.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        {% endblock %}
+    </head>
+    <body>
+        <div>
+
+            <form class="form-signin" method="post" action="{{ path('cut') }}">
+                <h2 class="form-signin-headind">Please enter the link</h2>
+                <input type="text" id="input" name="input" class="form-control" placeholder="Link" required autofocus>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Get the link!</button>
+            </form>
+
+        </div>
+    {% if link is not null %}
+    <div class="page-link">
+        <h1 class="nav-link">Done! Your link: {{ host }}/{{ link }}</h1>
+    </div>
+    {% endif %}
+    </body>
+</html>
