@@ -9,10 +9,9 @@
 namespace App\Service;
 
 
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-abstract class linkHandler
+abstract class LinkHandler
 {
 
     public static function checkLink(array $result)
