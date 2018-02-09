@@ -9,7 +9,7 @@
 namespace App\Service;
 
 
-class UIdGen
+class UidGen
 {
     private const CHAR = "0123456789aqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_-";
 

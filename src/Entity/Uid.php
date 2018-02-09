@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UIdRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UidRepository")
  */
 class Uid
 {
@@ -32,7 +32,7 @@ class Uid
 
     }
 
-    public function setLink($link)
+    public function Link($link)
     {
         $this->link = $link;
     }

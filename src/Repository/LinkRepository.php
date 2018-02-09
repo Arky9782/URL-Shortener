@@ -2,26 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Link;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
-class LinkRepository extends ServiceEntityRepository
+class LinkRepository
 {
-    public function __construct(RegistryInterface $registry)
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
     {
-        parent::__construct($registry, Link::class);
+        $this->em = $em;
     }
 
-    public function findLink($id)
+
+    public function persist($link)
     {
-        return $this->createQueryBuilder()
-            ->select('l.link')
-            ->from('App:Link', 'l')
-            ->innerJoin('l.uid', 'u')
-            ->where('u.uid = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult();
+        $this->em->persist($link);
     }
 }

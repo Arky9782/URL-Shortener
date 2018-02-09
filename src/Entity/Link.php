@@ -32,7 +32,7 @@ class Link
 
     }
 
-    public function setUid($id)
+    public function Uid($id)
     {
         $this->uid = $id;
     }
