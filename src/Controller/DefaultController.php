@@ -14,12 +14,10 @@ use App\Form\LinkType;
 use App\Repository\LinkRepository;
 use App\Repository\UidRepository;
 use App\Service\Flush;
-use App\Service\LinkHandler;
 use App\Service\UidGen;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class DefaultController extends AbstractController
@@ -61,7 +59,7 @@ class DefaultController extends AbstractController
 
             return $this->render('base.html.twig', ['form' => $form->createView(), 'userLink' => $userLink, 'host' => $host]);
         }
-        
+
         return $this->render('base.html.twig', ['form' => $form->createView(), 'userLink' => $userLink, 'host' => $host]);
     }
 
@@ -73,6 +71,8 @@ class DefaultController extends AbstractController
     {
         $result = $uidRep->findLink($id);
 
-       return LinkHandler::checkLink($result);
+        $link = $result[0]['link'];
+
+       return $this->redirect($link);
     }
 }

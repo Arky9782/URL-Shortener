@@ -9,6 +9,8 @@
 namespace App\Service;
 
 
+use Doctrine\ORM\EntityManagerInterface;
+
 class UidGen
 {
     private const CHAR = "0123456789aqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_-";
