@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LinkRepository")
@@ -17,6 +18,10 @@ class Link
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Url(
+     *     protocols = {"http", "https"}
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $link;
@@ -26,11 +31,6 @@ class Link
      */
     private $uid;
 
-    public function __construct($link)
-    {
-        $this->link = $link;
-
-    }
 
     public function Uid($id)
     {
@@ -40,6 +40,11 @@ class Link
     public function getLink()
     {
         return $this->link;
+    }
+
+    public function setLink($link)
+    {
+        return $this->link = $link;
     }
 
 

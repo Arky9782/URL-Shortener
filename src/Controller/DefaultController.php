@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Link;
 use App\Entity\Uid;
+use App\Form\LinkType;
 use App\Repository\LinkRepository;
 use App\Repository\UidRepository;
 use App\Service\Flush;
@@ -18,6 +19,7 @@ use App\Service\UidGen;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class DefaultController extends AbstractController
@@ -25,39 +27,44 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index()
+    public function index(Flush $flush, UidRepository $uidRep, LinkRepository $linkRep, Request $request)
     {
-        $link = null;
-        return $this->render('base.html.twig', ['link' => $link]);
+        $userLink = null;
+
+        $host = null;
+
+        $link = new Link();
+
+        $form = $this->createForm(LinkType::class, $link);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid())
+        {
+            $link = $form->getData();
+
+            $id = UidGen::generate();
+
+            $uid = new Uid($id);
+
+            $link->Uid($uid);
+            $uid->Link($link);
+
+            $linkRep->persist($link);
+            $uidRep->persist($uid);
+
+            $flush();
+
+            $userLink = $uid->getUid();
+
+            $host = $request->server->get('HTTP_HOST');
+
+            return $this->render('base.html.twig', ['form' => $form->createView(), 'userLink' => $userLink, 'host' => $host]);
+        }
+        
+        return $this->render('base.html.twig', ['form' => $form->createView(), 'userLink' => $userLink, 'host' => $host]);
     }
 
-    /**
-     * @Route("/cut", name="cut", methods={"POST"})
-     */
-    public function cut(UidRepository $uidRep, LinkRepository $linkRep, Flush $flush, Request $request)
-    {
-        $link = $request->get('input');
-
-        $id = UidGen::generate();
-
-        $link = new Link($link);
-        $Uid = new Uid($id);
-
-        $Uid->Link($link);
-        $link->Uid($Uid);
-
-        $uidRep->persist($Uid);
-        $linkRep->persist($link);
-
-        $flush();
-
-
-        $link = $Uid->getUid();
-
-        $host = $request->server->get('HTTP_HOST');
-
-        return $this->render('base.html.twig', ['link' => $link, 'host' => $host]);
-    }
 
     /**
      * @Route("/{id}")
